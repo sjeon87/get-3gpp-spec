@@ -418,7 +418,7 @@ dependencies = [
 
 [[package]]
 name = "get-3gpp-spec"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "clap",

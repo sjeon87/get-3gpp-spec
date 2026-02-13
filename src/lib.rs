@@ -27,14 +27,15 @@ impl std::str::FromStr for SpecNumber {
 }
 
 /// Parse a `spec_number` into its two-character series and the trailing number part.
-/// Accepts strings that start with two digits, optionally a dot, then at least one alphanumeric.
+/// Accepts strings that start with two digits, optionally a dot, then at least one alphanumeric
+/// and optionally a part and subpart(s).
 /// Returns `Ok(SpecNumber)` on success, or `Err(String)` with a human-friendly message on failure.
 pub fn parse_spec_number(spec: &str) -> Result<SpecNumber, String> {
-    let re = Regex::new(r"^\d{2}\.?[A-Za-z0-9]+$")
+    let re = Regex::new(r"^\d{2}\.?[A-Za-z0-9]+(-\d+)*$")
         .map_err(|e| format!("internal regex error: {}", e))?;
     if !re.is_match(spec) {
         return Err(format!(
-            "invalid spec_number '{}': must start with two digits, optionally a dot, then at least one alphanumeric character",
+            "invalid spec_number '{}': must start with two digits, optionally a dot, then at least one alphanumeric character and optionally a hyphen followed by one or more digits",
             spec
         ));
     }
