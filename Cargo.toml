@@ -1,6 +1,6 @@
 [package]
 name = "get-3gpp-spec"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 
 [dependencies]
@@ -9,6 +9,9 @@ reqwest = { version = "0.11", features = ["blocking", "json"] }
 scraper = "0.14"
 regex = "1"
 chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+toml = { version = "1.1.2", features = ["serde"] }
+directories = "5.0"
 
 [target.x86_64-pc-windows-gnu]
 linker = "x86_64-w64-mingw32-gcc"

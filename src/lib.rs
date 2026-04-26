@@ -291,16 +291,20 @@ pub fn list(
         // If a `date_filter` is provided, derive `filter_start` and `filter_end`.
         // `filter_start` is the first day of that year/month at 00:00 UTC.
         // `filter_end` is three months after `filter_start` (exclusive upper bound).
-        let (filter_start, filter_end): (Option<DateTime<Utc>>, Option<DateTime<Utc>>) = if let Some(df) = date_filter {
-            // `from_ymd_opt` and `and_hms_opt` return Option to avoid panics on invalid dates.
-            let start = chrono::NaiveDate::from_ymd_opt(df.year as i32, df.month as u8 as u32, 1)
-                .and_then(|d| d.and_hms_opt(0, 0, 0))
-                .map(|naive_dt| DateTime::<Utc>::from_naive_utc_and_offset(naive_dt, Utc));
-            let end = start.clone().and_then(|s| s.checked_add_months(chrono::Months::new(3)));
-            (start, end)
-        } else {
-            (None, None)
-        };
+        let (filter_start, filter_end): (Option<DateTime<Utc>>, Option<DateTime<Utc>>) =
+            if let Some(df) = date_filter {
+                // `from_ymd_opt` and `and_hms_opt` return Option to avoid panics on invalid dates.
+                let start =
+                    chrono::NaiveDate::from_ymd_opt(df.year as i32, df.month as u8 as u32, 1)
+                        .and_then(|d| d.and_hms_opt(0, 0, 0))
+                        .map(|naive_dt| DateTime::<Utc>::from_naive_utc_and_offset(naive_dt, Utc));
+                let end = start
+                    .clone()
+                    .and_then(|s| s.checked_add_months(chrono::Months::new(3)));
+                (start, end)
+            } else {
+                (None, None)
+            };
 
         // If a `date_filter` was provided, exclude rows outside [filter_start, filter_end).
         if let Some(start) = filter_start {
